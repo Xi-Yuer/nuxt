@@ -59,7 +59,7 @@ module.exports = {
     // 服务器
     server:{
         // 服务器中配置
-        // host:'0.0.0.0',
-        // port:3000
+        host:'0.0.0.0',
+        port:8888
     }
 }
