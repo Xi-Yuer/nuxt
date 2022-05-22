@@ -5,7 +5,7 @@
         <div class="banner">
             <div class="container">
                 <h1 class="logo-font">conduit</h1>
-                <p>分享你的故事</p>
+                <p>分享你的技术和故事...</p>
             </div>
         </div>
         <!-- 文章 -->
