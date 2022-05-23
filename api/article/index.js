@@ -50,6 +50,38 @@ const getArticleComment = async (slug) => {
     })
     return data
 }
+// 发表评论
+const sendComment = async (slug,comment) => {
+    const { data } = await request({
+        method: 'POST',
+        url: `/articles/${slug}/comments`,
+        data:{
+            comment:{
+                body:comment
+            }
+        }
+    })
+    return data
+}
+// 删除评论
+const delComment = async (slug,id) => {
+    const { data } = await request({
+        method: 'DELETE',
+        url: `/articles/${slug}/comments/${id}`
+    })
+    return data
+}
+// 发表文章
+const sendArticle = async (article) => {
+    const { data } = await request({
+        method: 'POST',
+        url: `/articles`,
+        data:{
+            article
+        }
+    })
+    return data
+}
 
 export {
     getArticle,
@@ -57,5 +89,8 @@ export {
     addFavorite,
     delFavorite,
     getArticleDtaile,
-    getArticleComment
+    getArticleComment,
+    sendComment,
+    delComment,
+    sendArticle
 }

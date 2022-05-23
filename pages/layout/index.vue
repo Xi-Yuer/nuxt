@@ -4,23 +4,25 @@
         <!-- 顶部导航栏 -->
         <nav class="navbar navbar-light">
             <div class="container">
-                <nuxt-link class="navbar-brand" to="/">conduit</nuxt-link>
+                <nuxt-link class="navbar-brand" to="/">realWorld</nuxt-link>
                 <ul class="nav navbar-nav pull-xs-right">
                     <li class="nav-item">
-                        <nuxt-link class="nav-link" exact to="/">Home</nuxt-link>
+                        <nuxt-link class="nav-link" exact to="/">主页</nuxt-link>
                     </li>
                     <template v-if="user">
                         <li class="nav-item">
-                            <nuxt-link class="nav-link" to="/editor"><i class="ion-compose"></i>&nbsp;New Article
+                            <nuxt-link class="nav-link" to="/editor"><i class="ion-compose"></i>&nbsp;发表
                             </nuxt-link>
                         </li>
                         <li class="nav-item">
-                            <nuxt-link class="nav-link" to="/settings"><i class="ion-gear-a"></i>&nbsp;Settings
+                            <nuxt-link class="nav-link" to="/settings"><i class="ion-gear-a"></i>&nbsp;设置
                             </nuxt-link>
                         </li>
                         <li class="nav-item">
-                            <nuxt-link to="/profile/2" class="nav-link">
-                                <img class="user-pic" :src="user.image">
+                            <nuxt-link 
+                            :to="`/profile/${user.username}`" 
+                            class="nav-link">
+                                <img class="user-pic" :src="user.image" onerror="javascript:this.src='https://img0.baidu.com/it/u=2029936336,3680262465&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'">
                                 {{ user.username }}
                             </nuxt-link>
                         </li>
@@ -41,7 +43,7 @@
         <!-- 底部 -->
         <footer>
             <div class="container">
-                <a href="/" class="logo-font">conduit</a>
+                <nuxt-link to="/" class="logo-font">realWorld</nuxt-link>
                 <span class="attribution">
                     An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design
                     licensed under MIT.

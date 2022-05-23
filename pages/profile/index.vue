@@ -7,16 +7,15 @@
                 <div class="row">
 
                     <div class="col-xs-12 col-md-10 offset-md-1">
-                        <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
-                        <h4>Eric Simons</h4>
+                        <img :src="user.image" class="user-img" onerror="javascript:this.src='https://img0.baidu.com/it/u=2029936336,3680262465&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'" />
+                        <h4>{{ user.username }}</h4>
                         <p>
-                            Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the
-                            Hunger Games
+                            {{ user.bio }}
                         </p>
                         <button class="btn btn-sm btn-outline-secondary action-btn">
                             <i class="ion-plus-round"></i>
                             &nbsp;
-                            Follow Eric Simons
+                            Follow {{ user.username }}
                         </button>
                     </div>
 
@@ -31,54 +30,40 @@
                     <div class="articles-toggle">
                         <ul class="nav nav-pills outline-active">
                             <li class="nav-item">
-                                <a class="nav-link active" href="">My Articles</a>
+                                <a class="nav-link active" href="">我的文章</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Favorited Articles</a>
+                                <a class="nav-link" href="">关注文章</a>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="article-preview">
+                    <div class="article-preview" v-for="article in Article" :key="article.slug">
                         <div class="article-meta">
-                            <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+                            <nuxt-link 
+                                :to="{ name: 'profile', params: { username: article.author.username } }">
+                                <img :src="article.author.image" onerror="javascript:this.src='https://img0.baidu.com/it/u=2029936336,3680262465&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'" />
+                            </nuxt-link>
                             <div class="info">
-                                <a href="" class="author">Eric Simons</a>
-                                <span class="date">January 20th</span>
+                                <nuxt-link 
+                                    :to="{ name: 'profile', params: { username: article.author.username } }" 
+                                    class="author">
+                                    {{ article.author.username }}
+                                </nuxt-link>
+                                <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
                             </div>
                             <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                                <i class="ion-heart"></i> 29
+                                <i class="ion-heart"></i> {{ article.favoritesCount }}
                             </button>
                         </div>
-                        <a href="" class="preview-link">
-                            <h1>How to build webapps that scale</h1>
-                            <p>This is the description for the post.</p>
-                            <span>Read more...</span>
-                        </a>
+                       <nuxt-link 
+                            :to="{ name: 'article', params: { slug: article.slug } }" 
+                            class="preview-link">
+                            <h1>{{ article.title }}</h1>
+                            <p>{{ article.description }}</p>
+                            <span>更多...</span>
+                        </nuxt-link>
                     </div>
-
-                    <div class="article-preview">
-                        <div class="article-meta">
-                            <a href=""><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
-                            <div class="info">
-                                <a href="" class="author">Albert Pai</a>
-                                <span class="date">January 20th</span>
-                            </div>
-                            <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                                <i class="ion-heart"></i> 32
-                            </button>
-                        </div>
-                        <a href="" class="preview-link">
-                            <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-                            <p>This is the description for the post.</p>
-                            <span>Read more...</span>
-                            <ul class="tag-list">
-                                <li class="tag-default tag-pill tag-outline">Music</li>
-                                <li class="tag-default tag-pill tag-outline">Song</li>
-                            </ul>
-                        </a>
-                    </div>
-
 
                 </div>
 
@@ -89,14 +74,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { getArticle } from '@/api/article'
+import { getUserDetail } from '@/api/user'
 export default {
     name: 'profile',
     middleware: 'isAuth',
     data() {
         return {
+            Article: [],
+            username:'',
+            user:{}
         };
     },
-
+    async mounted() {
+        const username = this.$route.params.username
+        const { profile } = await getUserDetail(username)
+        this.user = profile
+        this.username = username
+        const { articles } = await getArticle({ author: username })
+        this.Article = articles
+    }
 }
 
 </script>

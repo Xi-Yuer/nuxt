@@ -23,7 +23,37 @@ const register = async (user) => {
     })
     return data
 }
+// 用户资料更新
+const updateUser = async (user) => {
+    const { data } = await request({
+        method: 'PUT',
+        url: '/user',
+        data:{
+            user
+        }
+    })
+    return data
+}
+// 关注用户
+const followUser = async (method = 'POST', username) => {
+    const { data } = await request({
+        method: method,
+        url: `/profiles/${username}/follow`
+    })
+    return data
+}
+// 获取用户资料
+const getUserDetail = async (username) => {
+    const { data } = await request({
+        method: 'GET',
+        url: `/profiles/${username}`
+    })
+    return data
+}
 export {
     login,
-    register
+    register,
+    followUser,
+    updateUser,
+    getUserDetail
 }

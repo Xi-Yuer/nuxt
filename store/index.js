@@ -12,6 +12,7 @@ export const mutations = {
     // 修改状态的mutation
     setUser(state, payload) {
         state.user = payload
+        state.user.image = 'https://img0.baidu.com/it/u=2029936336,3680262465&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'
     }
 }
 

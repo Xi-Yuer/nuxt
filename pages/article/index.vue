@@ -41,7 +41,7 @@ import MarkdownIt from 'markdown-it'
 import ArticleMeta from './components/article-meta'
 import ArticleComments from './components/article-comments'
 export default {
-    name: 'Article',
+    name: 'article',
     // 用于自定义头部（ 有利于 SEO ）
     head() {
         return {
